@@ -4,6 +4,7 @@ import (
 	"log"
 	"fmt"
 	"proposal"
+	"math/rand"
 )
 
 type Acceptor struct {
@@ -20,8 +21,11 @@ func New(name string) *Acceptor {
 }
 
 func ShuffleListAcceptors() []*Acceptor {
-	// @_@：把g_acceptors打成乱序再返回
-	return g_acceptors
+	ret := g_acceptors
+	rand.Shuffle(len(ret), func(i, j int) {
+		ret[i], ret[j] = ret[j], ret[i]
+	})
+	return ret
 }
 
 func (acceptor *Acceptor) Send(proposal proposal.Proposal) string {
